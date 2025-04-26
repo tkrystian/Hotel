@@ -1,0 +1,125 @@
+﻿@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<div class="text-center">
+    <p>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#edycjaBanneru" aria-expanded="false" aria-controls="edycjaBanneru">
+            Edycja banneru
+        </button>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#edycjaWizytowki" aria-expanded="false" aria-controls="edycjaWizytowki">
+            Edycja wizytówki
+        </button>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#edycjaOfert" aria-expanded="false" aria-controls="edycjaOfert">
+            Edycja ofert
+        </button>
+    </p>
+    <div class="collapse" id="edycjaBanneru">
+        <div class="card card-body">
+            <h4 class="header">Wybierz banner</h4>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="~/content/classic.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Banner1</h5>
+                            <a href="#" class="btn accent-btn">Wybierz</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="~/content/deluxe.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Banner2</h5>
+                            <a href="#" class="btn accent-btn">Wybierz</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="~/content/eco.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Banner3</h5>
+                            <a href="#" class="btn accent-btn">Wybierz</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="edycjaWizytowki">
+        <div class="card card-body">
+            <h4 class="header">Edytuj wizytówkę</h4>
+            <div class="row">
+                <div class="col-sm-4">
+                    <div class="card" style="width: 18rem;">
+                        <img class="card-img-top" src="~/content/tratwa2.png" alt="Card image cap">
+                        <div class="card-body">
+                            <h5 class="card-title">Grafika na wizytówce</h5>
+                            <a href="#" class="btn accent-btn">Zmień</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-8">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Opis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="row-headers mb-3">
+                                        <p>NATURA, HARMONIA, UNIKALNOŚĆ</p>
+                                    </div>
+                                    <div class="row-description">
+                                        <p>
+                                            Zapraszamy do jedynego w swoim rodzaju hotelu na środku oceanu – miejsca, gdzie luksus i natura harmonijnie splatają się w niezapomniane doświadczenie. Nasze wyjątkowe tratwy, unoszące się na bezkresnych wodach, zapewniają absolutny spokój, prywatność oraz bliskość natury w najczystszej postaci.
+                                        </p>
+                                        <p>
+                                            Każda tratwa to komfortowa przestrzeń z nowoczesnym wyposażeniem, w tym panoramicznymi oknami oferującymi widok na otwartą wodę i zachody słońca, które zapierają dech w piersiach. Goście mogą relaksować się w wygodnym łóżku, słuchać kojącego szumu fal lub podziwiać gwiazdy z prywatnego tarasu.
+                                        </p>
+                                        <p>
+                                            Dla miłośników przygód przygotowaliśmy dodatkowe atrakcje: snorkeling, obserwację delfinów, poranne medytacje na wodzie i romantyczne kolacje przy blasku księżyca. Każdy posiłek serwowany w naszym hotelu jest przygotowywany z najwyższej jakości składników, odzwierciedlając lokalną, oceaniczną kuchnię.
+                                        </p>
+                                        <p>
+                                            To miejsce, gdzie granice codzienności zanikają, a goście odnajdują harmonię i połączenie z otaczającą przyrodą. U nas zarezerwujesz nie tylko nocleg, ale także niezapomniane chwile na środku świata. 🌊
+                                        </p>
+                                    </div>
+                                </td>
+                            </tr>
+                            
+                            <tr>
+                                <td><a href="#" class="btn accent-btn">Edytuj</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="edycjaOfert">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Ilość wyświetlanych</th>
+                            <th scope="col">Układ</th>
+                            <th scope="col">Wybór ofert do wyświetlenia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><a href="">Edytuj</a></td>
+                            <td><a href="">Edytuj</a></td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

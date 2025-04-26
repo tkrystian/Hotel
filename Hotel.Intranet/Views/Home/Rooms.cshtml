@@ -1,0 +1,90 @@
+﻿@{
+    ViewData["Title"] = "Pokoje";
+}
+
+<div class="text-center">
+    <p>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#edycjaUkladu" aria-expanded="false" aria-controls="edycjaUkladu">
+            Zmodyfikuj układ strony
+        </button>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#edycjaPokojow" aria-expanded="false" aria-controls="edycjaPokojow">
+            Edycja tratw
+        </button>
+    </p>
+    <div class="collapse" id="edycjaUkladu">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Element</th>
+                            <th scope="col">Edycja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Układ strony</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Rozmiar grafik</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Dekoracje strony</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="edycjaPokojow">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Nazwa tratwy</th>
+                            <th scope="col">Ilość miejsc</th>
+                            <th scope="col">Cena</th>
+                            <th scope="col">Opis</th>
+                            <th scope="col">Edycja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Tratwa1</td>
+                            <td>2</td>
+                            <td>100</td>
+                            <td><a href="">Wyświetl opis</a></td>
+                            <td><a href="">Edytuj</a> <a href="">Usuń</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Tratwa1</td>
+                            <td>3</td>
+                            <td>200</td>
+                            <td><a href="">Wyświetl opis</a></td>
+                            <td><a href="">Edytuj</a> <a href="">Usuń</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Tratwa3</td>
+                            <td>4</td>
+                            <td>300</td>
+                            <td><a href="">Wyświetl opis</a></td>
+                            <td><a href="">Edytuj</a> <a href="">Usuń</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

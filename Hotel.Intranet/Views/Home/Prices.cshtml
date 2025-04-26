@@ -1,0 +1,82 @@
+﻿@{
+    ViewData["Title"] = "Cenniki";
+}
+
+<div class="text-center">
+    <p>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#cenyPodstawowe" aria-expanded="false" aria-controls="cenyPodstawowe">
+            Edycja cen podstawowych
+        </button>
+        <button class="btn accent-btn" type="button" data-bs-toggle="collapse" data-bs-target="#cenySpecjalne" aria-expanded="false" aria-controls="cenySpecjalne">
+            Edycja cen specjalnych
+        </button>
+    </p>
+    <div class="collapse" id="cenyPodstawowe">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Pokój</th>
+                            <th scope="col">Cena</th>
+                            <th scope="col">Edycja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">1</th>
+                            <td>Pokój1</td>
+                            <td>100</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">2</th>
+                            <td>Pokój2</td>
+                            <td>200</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">3</th>
+                            <td>Pokój3</td>
+                            <td>300</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="collapse" id="cenySpecjalne">
+        <div class="card card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Zakres dat</th>
+                            <th scope="col">Nazwa promocji</th>
+                            <th scope="col">Edycja</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th scope="row">11.11.2011-12.12.2012</th>
+                            <td>Promocja1</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">22.11.2022-22.12.2022</th>
+                            <td>Promocja2</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">10.04.2025-15.05.2025</th>
+                            <td>Promocja3</td>
+                            <td><a href="">Edytuj</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,232 @@
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 600px;
+    color: #333d46;
+    background-color: #f2efe9;
+    font-family: 'Playfair Display', serif;
+}
+
+.div-reservation {
+    background-color: #33ab9f;
+    border-radius: 50px;
+}
+
+.btn-reservation {
+    color: #f2efe9;
+    letter-spacing: .16em;
+    margin: 5px;
+}
+
+.logo-container {
+    height: 50px;
+}
+
+.logo {
+    height: 100px;
+    width: auto;
+    margin-left: 50px;
+    object-fit: cover;
+}
+
+.nav-link {
+    font-weight: bold;
+}
+
+.tratwa {
+    height: 100%;
+    width: auto;
+    border-radius: 500px 0 0 50px;
+}
+
+.row-headers p {
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 1.21;
+    color: #5b6e7f !important;
+    margin-bottom: 30px;
+}
+
+.row-description {
+    font-size: 16px;
+    margin-right: 20px;
+    justify-content: center;
+}
+
+.card-img-center {
+    max-width: 100%;
+    height: auto;
+    border-radius: 50px;
+    object-fit: cover;
+}
+
+.card {
+    border-radius: 0;
+    align-content: center;
+    border: 0;
+    cursor: pointer;
+    background: none !important;
+}
+
+.card-title {
+    font-weight: 400;
+    font-size: 38px;
+    color: #5b6e7f !important;
+}
+
+.banner {
+    height: 300px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 50px;
+    margin-bottom: 50px;
+    object-position: center 65%;
+}
+
+.card-footer {
+    margin: 10px;
+    height: max-content;
+    width: 200px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card-footer-img {
+    object-fit: cover;
+    height: 250px;
+    width: 150px;
+    border-radius: 150px !important;
+}
+
+.img-container {
+    height: 100%;
+    width: 270px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.arrow-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    padding: 5px 15px 0 15px;
+}
+
+.arrow-icon {
+    color: #33ab9f;
+    background-color: #F5DEB3;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.arrow-text {
+    width: 100%;
+    padding-left: 15px;
+    font-weight: bold;
+    color: #333;
+}
+
+.card-group.slider {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+}
+
+    .card-group.slider .card {
+        flex: 0 0 auto;
+        scroll-snap-align: start;
+        margin-right: 16px;
+    }
+
+.about-us {
+    height: 67vh;
+}
+
+.card-img-left {
+    width: 200px;
+    height: auto;
+    border-radius: 50px 0;
+}
+
+.rooms-wide-card {
+    border-radius: 50px 0;
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    background: rgba(247, 245, 244, .9);
+    margin: 15px 0 15px 0;
+}
+
+.rooms-header {
+    text-align: center;
+    color: #5b6e7f !important;
+    margin: 30px;
+}
+
+.atraction-btn {
+    background-color: #33ab9f;
+    color: white;
+}
+
+.atraction-btn:hover{
+    background-color: #1c8a7f;
+    color:white;
+}
+
+.atraction-card {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.vr {
+    width: 2px;
+    background-color: black;
+}
+
+
+/* Styl dla nag³ówków na wiêkszych ekranach */
+.header-text {
+    font-size: 3rem;
+    text-align: center;
+    color: #5b6e7f !important;
+    margin: 100px;
+}
+
+/* Styl dla nag³ówków na mniejszych ekranach */
+@media (max-width: 768px) {
+    .header-text {
+        font-size: 1.8rem;
+        margin: 10px;
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .header-text {
+        font-size: 1.5rem;
+        margin: 50px;
+    }
+}

@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hotel Atlantyk</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/Hotel.PortalWWW.styles.css" asp-append-version="true" />
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <!-- Logo -->
+                <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                    <div class="d-flex align-items-center logo-container">
+                        <img src="~/content/front/logo.png" class="logo me-2" alt="">
+                        <h2 class="hotel-title mb-0">Hotel Atlantyk</h2>
+                    </div>
+                </a>
+
+                <!-- Hamburger button for mobile -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Navigation links -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">HOTEL</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Rooms">POKOJE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Atractions">ATRAKCJE</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="AboutUs">O NAS</a>
+                        </li>
+                    </ul>
+                    <div class="d-flex align-items-center div-reservation">
+                        <a class="btn btn-reservation text-white" asp-area="" asp-controller="Home" asp-action="Index">REZERWUJ POBYT</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            <div class="row g-3">
+                <div class="card-group slider">
+
+                    <div class="card card-footer">
+                        <div class="img-container">
+                            <img src="~/content/atractions/mini-bar.png" class="card-img-top card-footer-img" alt="mini barek">
+                        </div>
+                        <div class="arrow-wrapper">
+                            <div class="arrow-icon">&#8594;</div>
+                        </div>
+                        <div class="arrow-text">
+                            <p>MINI BAREK</p>
+                        </div>
+                    </div>
+
+
+                    <div class="card card-footer">
+                        <div class="img-container">
+                            <img src="~/content/atractions/grill.png" class="card-img-top card-footer-img" alt="grill">
+                        </div>
+                        <div class="arrow-wrapper">
+                            <div class="arrow-icon">&#8594;</div>
+                        </div>
+                        <div class="arrow-text">
+                            <p>GRILL</p>
+                        </div>
+                    </div>
+
+
+                    <div class="card card-footer">
+                        <div class="img-container">
+                            <img src="~/content/atractions/restauracja.png" class="card-img-top card-footer-img" alt="restauracja">
+                        </div>
+                        <div class="arrow-wrapper">
+                            <div class="arrow-icon">&#8594;</div>
+                        </div>
+                        <div class="arrow-text">
+                            <p>RESTAURACJA</p>
+                        </div>
+                    </div>
+
+
+                    <div class="card card-footer">
+                        <div class="img-container">
+                            <img src="~/content/atractions/jogging.png" class="card-img-top card-footer-img" alt="jogging">
+                        </div>
+                        <div class="arrow-wrapper">
+                            <div class="arrow-icon">&#8594;</div>
+                        </div>
+                        <div class="arrow-text">
+                            <p>JOGGING</p>
+                        </div>
+                    </div>
+
+
+                    <div class="card card-footer">
+                        <div class="img-container">
+                            <img src="~/content/atractions/kolonizacja.png" class="card-img-top card-footer-img" alt="kolonizacja księżyca">
+                        </div>
+                        <div class="arrow-wrapper">
+                            <div class="arrow-icon">&#8594;</div>
+                        </div>
+                        <div class="arrow-text">
+                            <p>KOLONIZACJA KSIĘŻYCA</p>
+                        </div>
+                    </div>
+
+                </div>
+                &copy; 2025 - Hotel Atlantyk
+            </div>
+        </div>
+    </footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,36 @@
+using Hotel.PortalWWW.Models.Atractions;
+using Hotel.PortalWWW.Models.Rooms;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+public class Reservation
+{
+    [Key]
+    public int IdRezerwacji { get; set; }
+
+    [Required(ErrorMessage = "Data rozpoczêcia jest wymagana.")]
+    [Display(Name = "Data rozpoczêcia")]
+    public DateTime DataRozpoczecia { get; set; }
+
+    [Required(ErrorMessage = "Data zakoñczenia jest wymagana.")]
+    [Display(Name = "Data zakoñczenia")]
+    public DateTime DataZakonczenia { get; set; }
+
+    [Required(ErrorMessage = "Typ rezerwacji jest wymagany.")]
+    [Display(Name = "Typ rezerwacji")]
+    [StringLength(50, ErrorMessage = "Typ rezerwacji nie mo¿e przekraczaæ 50 znaków.")]
+    public required string TypRezerwacji { get; set; }
+
+    [Required(ErrorMessage = "Identyfikator obiektu jest wymagany.")]
+    [Display(Name = "Identyfikator obiektu")]
+    public int ObiektId { get; set; }
+
+    [ForeignKey("User")]
+    public int UzytkownikId { get; set; }
+
+    [NotMapped]
+    public Atraction? Atraction { get; set; }
+
+    [NotMapped]
+    public Room? Room { get; set; }
+}

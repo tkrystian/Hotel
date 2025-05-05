@@ -21,10 +21,6 @@ public class Reservation
     [StringLength(50, ErrorMessage = "Typ rezerwacji nie mo¿e przekraczaæ 50 znaków.")]
     public required string TypRezerwacji { get; set; }
 
-    [Required(ErrorMessage = "Identyfikator obiektu jest wymagany.")]
-    [Display(Name = "Identyfikator obiektu")]
-    public int ObiektId { get; set; }
-
     [ForeignKey("User")]
     public int UzytkownikId { get; set; }
 

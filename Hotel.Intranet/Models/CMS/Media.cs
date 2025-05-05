@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hotel.PortalWWW.Models.Atractions;
+using Hotel.PortalWWW.Models.Rooms;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 public class Media
@@ -27,4 +29,7 @@ public class Media
 
     [Display(Name = "Data dodania")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public ICollection<Room>? Rooms { get; set; } = new List<Room>();
+    public ICollection<Atraction>? Atractions { get; set; } = new List<Atraction>();
 }

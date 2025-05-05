@@ -1,0 +1,51 @@
+﻿@model IEnumerable<Hotel.PortalWWW.Models.CMS.Page>
+
+@{
+    ViewData["Title"] = "Strony";
+}
+
+<p>
+    <a class="btn btn-primary" asp-action="Create">+ Dodaj</a>
+</p>
+<table class="table table-striped table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.LinkTytul)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tytul)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Tresc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Pozycja)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.LinkTytul)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tytul)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Tresc)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Pozycja)
+            </td>
+            <td>
+                <a class="btn btn-warning btn-sm text-white" asp-action="Edit" asp-route-id="@item.IdStrony">✎ Edytuj</a> |
+                <a class="btn btn-info btn-sm text-white" asp-action="Details" asp-route-id="@item.IdStrony">📄 Szczegóły</a> |
+                <a class="btn btn-danger btn-sm text-white" asp-action="Delete" asp-route-id="@item.IdStrony">⛌ Usuń</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

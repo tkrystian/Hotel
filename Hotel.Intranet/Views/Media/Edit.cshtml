@@ -1,0 +1,86 @@
+﻿@model Media
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Media</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="IdMedia" />
+            <div class="form-group">
+                <label asp-for="FileName" class="control-label"></label>
+                <input asp-for="FileName" class="form-control" />
+                <span asp-validation-for="FileName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RelatedObjectType" class="control-label"></label>
+                <select asp-for="RelatedObjectType" class="form-control" id="relatedObjectType">
+                    <option value="">-- Wybierz typ --</option>
+                    <option value="attractions">Atrakcje</option>
+                    <option value="rooms">Pokoje</option>
+                    <option value="misc">Inne</option>
+                </select>
+                <span asp-validation-for="RelatedObjectType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FilePath" class="control-label">Wybierz grafikę</label>
+                <select asp-for="FilePath" class="form-control" id="filePath">
+                    <option value="">-- Wybierz plik --</option>
+                    @foreach (var file in ViewBag.ContentFiles as List<string>)
+                    {
+                        <option value="@file" selected="@(file == ViewBag.SelectedFilePath ? "selected" : null)">@file</option>
+                    }
+                </select>
+                <span asp-validation-for="FilePath" class="text-danger"></span>
+            </div>
+
+
+            <div class="form-group">
+                <label asp-for="FileType" class="control-label"></label>
+                <input asp-for="FileType" class="form-control" />
+                <span asp-validation-for="FileType" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        document.getElementById('relatedObjectType').addEventListener('change', function () {
+            const selectedType = this.value;
+            const filePathDropdown = document.getElementById('filePath');
+            filePathDropdown.innerHTML = '<option value="">-- Wybierz plik --</option>';
+
+            if (selectedType) {
+                fetch(`/Media/GetFilesByType?type=${selectedType}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        data.forEach(file => {
+                            const option = document.createElement('option');
+                            option.value = file;
+                            option.textContent = file;
+                            filePathDropdown.appendChild(option);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching files:', error));
+            }
+        });
+    </script>
+}

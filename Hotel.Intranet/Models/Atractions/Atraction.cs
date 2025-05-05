@@ -12,21 +12,11 @@ namespace Hotel.PortalWWW.Models.Atractions
         [Display(Name = "Nazwa atrakcji")]
         public required string Nazwa { get; set; }
 
-        [Required(ErrorMessage = "Zdjęcie poglądowe jest wymagane.")]
-        [StringLength(200, ErrorMessage = "Zdjęcie poglądowe nie może przekraczać 200 znaków.")]
-        [Display(Name = "Zdjęcie poglądowe")]
-        public required string Zdjecie { get; set; }
-
         [Required(ErrorMessage = "Opis jest wymagany.")]
         [StringLength(5000, ErrorMessage = "Opis nie może przekraczać 5000 znaków.")]
         [DataType(DataType.MultilineText)]
         [Display(Name = "Treść opisu")]
         public required string Opis { get; set; }
-
-        [Required(ErrorMessage = "Ilość jest wymagana.")]
-        [Range(1, 10, ErrorMessage = "Ilość musi być w zakresie od 1 do 10.")]
-        [Display(Name = "Ilość dostępnych")]
-        public int Ilosc { get; set; }
 
         [Required(ErrorMessage = "Cena jest wymagana.")]
         [Range(0, 10000, ErrorMessage = "Cena musi być w zakresie od 0 do 10000.")]
@@ -38,5 +28,7 @@ namespace Hotel.PortalWWW.Models.Atractions
         [StringLength(50, ErrorMessage = "Status nie może przekraczać 50 znaków.")]
         [Display(Name = "Status")]
         public required string Status { get; set; }
+
+        public Media? Media { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Hotel.Intranet.Models.Intranet;
+using System.ComponentModel.DataAnnotations;
 
 public class User
 {
@@ -28,6 +29,15 @@ public class User
     [Phone(ErrorMessage = "Nieprawidłowy format numeru telefonu.")]
     [Display(Name = "Numer telefonu (opcjonalnie)")]
     public string? Telefon { get; set; }
+
+    [Required(ErrorMessage = "Hasło jest wymagane.")]
+    [StringLength(100, ErrorMessage = "Hasło musi mieć co najmniej 6 znaków.", MinimumLength = 6)]
+    [DataType(DataType.Password)]
+    [Display(Name = "Hasło")]
+    public required string Haslo { get; set; }
+
     public ICollection<Reservation>? Rezerwacje { get; set; } = new List<Reservation>();
-    public ICollection<ReservationHistory>? HistoriaRezerwacji { get; set; } = new List<ReservationHistory>();
+    public ICollection<Messages>? WiadomosciWyslane { get; set; } = new List<Messages>();
+    public ICollection<Messages>? WiadomosciOdebrane { get; set; } = new List<Messages>();
+
 }

@@ -62,3 +62,12 @@ body {
     background-color: #33ab9faa;
     color: white;
 }
+
+.image-preview{
+    width: 100px;
+}
+
+.table-dark {
+    --bs-table-bg: rgb(51, 171, 159);
+    border-color: white;
+}

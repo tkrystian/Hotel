@@ -71,3 +71,8 @@ body {
     --bs-table-bg: rgb(51, 171, 159);
     border-color: white;
 }
+
+.bg-dark {
+    background-color: rgb(51, 171, 159) !important;
+    border-color: white;
+}

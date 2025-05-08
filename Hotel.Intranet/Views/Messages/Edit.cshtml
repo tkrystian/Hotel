@@ -1,64 +1,64 @@
 ﻿@model Hotel.Intranet.Models.Intranet.Messages
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytuj wiadomość";
 }
 
-<h1>Edit</h1>
-
-<h4>Messages</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdWiadomosci" />
-            <div class="form-group">
-                <label asp-for="Temat" class="control-label"></label>
-                <input asp-for="Temat" class="form-control" />
-                <span asp-validation-for="Temat" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Tresc" class="control-label"></label>
-                <textarea asp-for="Tresc" class="form-control"></textarea>
-                <span asp-validation-for="Tresc" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DataWyslania" class="control-label"></label>
-                <input asp-for="DataWyslania" class="form-control" />
-                <span asp-validation-for="DataWyslania" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="NadawcaId" class="control-label"></label>
-                <input asp-for="NadawcaId" class="form-control" />
-                <span asp-validation-for="NadawcaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="OdbiorcaId" class="control-label"></label>
-                <input asp-for="OdbiorcaId" class="form-control" />
-                <span asp-validation-for="OdbiorcaId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <select asp-for="Status" class="form-control">
-                    @foreach (var status in Enum.GetValues(typeof(Hotel.Intranet.Models.Intranet.MessageStatus)))
-                    {
-                        <option value="@((int)status)">@status</option>
-                    }
-                </select>
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Edytuj wiadomość</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="IdWiadomosci" />
+                <div class="mb-3">
+                    <label asp-for="Temat" class="form-label font-weight-bold"></label>
+                    <input asp-for="Temat" class="form-control" />
+                    <span asp-validation-for="Temat" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Tresc" class="form-label font-weight-bold"></label>
+                    <textarea asp-for="Tresc" class="form-control"></textarea>
+                    <span asp-validation-for="Tresc" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="DataWyslania" class="form-label font-weight-bold"></label>
+                    <input asp-for="DataWyslania" class="form-control" />
+                    <span asp-validation-for="DataWyslania" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="NadawcaId" class="form-label font-weight-bold"></label>
+                    <input asp-for="NadawcaId" class="form-control" />
+                    <span asp-validation-for="NadawcaId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="OdbiorcaId" class="form-label font-weight-bold"></label>
+                    <input asp-for="OdbiorcaId" class="form-control" />
+                    <span asp-validation-for="OdbiorcaId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label font-weight-bold"></label>
+                    <select asp-for="Status" class="form-control">
+                        @foreach (var status in Enum.GetValues(typeof(Hotel.Intranet.Models.Intranet.MessageStatus)))
+                        {
+                            <option value="@((int)status)">@status</option>
+                        }
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                <div class="text-end">
+                    <input type="submit" value="Zapisz" class="btn btn-primary me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

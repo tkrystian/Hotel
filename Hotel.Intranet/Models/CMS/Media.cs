@@ -15,17 +15,17 @@ public class Media
 
     [Required(ErrorMessage = "Ścieżka pliku jest wymagana.")]
     [StringLength(500, ErrorMessage = "Ścieżka pliku nie może przekraczać 500 znaków.")]
-    [Display(Name = "Ścieżka pliku")]
+    [Display(Name = "Pełna nazwa pliku")]
     public required string FilePath { get; set; }
 
     [Required(ErrorMessage = "Typ pliku jest wymagany.")]
     [StringLength(50, ErrorMessage = "Typ pliku nie może przekraczać 50 znaków.")]
     [Display(Name = "Typ pliku")]
-    public required string FileType { get; set; } // np. "image/jpeg", "application/pdf"
+    public required string FileType { get; set; }
 
     [Display(Name = "Typ powiązanego obiektu")]
     [StringLength(50)]
-    public string? RelatedObjectType { get; set; } // np. "Page", "Room", "Atraction"
+    public string? RelatedObjectType { get; set; }
 
     [Display(Name = "Data dodania")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;

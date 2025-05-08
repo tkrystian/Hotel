@@ -4,6 +4,7 @@ using Hotel.Intranet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Intranet.Migrations
 {
     [DbContext(typeof(HotelIntranetContext))]
-    partial class HotelIntranetContextModelSnapshot : ModelSnapshot
+    [Migration("20250508085004_AddMediaToAtraction")]
+    partial class AddMediaToAtraction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -194,7 +197,7 @@ namespace Hotel.Intranet.Migrations
                     b.Property<int>("LiczbaOsob")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MediaId")
+                    b.Property<int?>("MediaIdMedia")
                         .HasColumnType("int");
 
                     b.Property<int>("Numer")
@@ -219,7 +222,7 @@ namespace Hotel.Intranet.Migrations
 
                     b.HasIndex("HomePageId");
 
-                    b.HasIndex("MediaId");
+                    b.HasIndex("MediaIdMedia");
 
                     b.ToTable("Room");
                 });
@@ -385,7 +388,7 @@ namespace Hotel.Intranet.Migrations
 
                     b.HasOne("Media", "Media")
                         .WithMany("Rooms")
-                        .HasForeignKey("MediaId");
+                        .HasForeignKey("MediaIdMedia");
 
                     b.Navigation("HomePage");
 

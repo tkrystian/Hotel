@@ -7,13 +7,14 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hotel.Intranet.Data;
 using Hotel.PortalWWW.Models.Atractions;
+using Hotel.Intranet.Models.DTO;
 
 namespace Hotel.Intranet.Controllers
 {
     public class AtractionsController : Controller
     {
         private readonly HotelIntranetContext _context;
-
+        
         public AtractionsController(HotelIntranetContext context)
         {
             _context = context;
@@ -22,7 +23,8 @@ namespace Hotel.Intranet.Controllers
         // GET: Atractions
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Atraction.ToListAsync());
+            return View(await _context.Atraction
+                .Include(a => a.Media).ToListAsync());
         }
 
         // GET: Atractions/Details/5
@@ -34,18 +36,23 @@ namespace Hotel.Intranet.Controllers
             }
 
             var atraction = await _context.Atraction
+                .Include(a => a.Media)
                 .FirstOrDefaultAsync(m => m.IdAtrakcji == id);
             if (atraction == null)
             {
                 return NotFound();
             }
-
             return View(atraction);
         }
 
         // GET: Atractions/Create
         public IActionResult Create()
         {
+            var media = _context.Media
+                .Where(m => m.RelatedObjectType == "attractions")
+                .ToList();
+
+            ViewBag.MediaList = media;
             return View();
         }
 
@@ -54,7 +61,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdAtrakcji,Nazwa,Opis,Cena,Status")] Atraction atraction)
+        public async Task<IActionResult> Create([Bind("IdAtrakcji,Nazwa,Opis,Cena,Status,MediaId")] Atraction atraction)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +69,7 @@ namespace Hotel.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.MediaList = new SelectList(_context.Media, "IdMedia", "FileName");
             return View(atraction);
         }
 
@@ -73,11 +81,22 @@ namespace Hotel.Intranet.Controllers
                 return NotFound();
             }
 
-            var atraction = await _context.Atraction.FindAsync(id);
+            var atraction = await _context.Atraction.Include(a => a.Media).FirstOrDefaultAsync(a => a.IdAtrakcji == id);
             if (atraction == null)
             {
                 return NotFound();
             }
+
+            var mediaList = await _context.Media
+                .Where(m => m.RelatedObjectType == "attractions")
+                .Select(m => new MediaDto
+                {
+                    Id = m.IdMedia,
+                    FilePath = m.FilePath
+                })
+                .ToListAsync();
+
+            ViewBag.MediaListJson = mediaList;
             return View(atraction);
         }
 
@@ -86,7 +105,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdAtrakcji,Nazwa,Opis,Cena,Status")] Atraction atraction)
+        public async Task<IActionResult> Edit(int id, [Bind("IdAtrakcji,Nazwa,Opis,Cena,Status,MediaId")] Atraction atraction)
         {
             if (id != atraction.IdAtrakcji)
             {
@@ -113,6 +132,7 @@ namespace Hotel.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.MediaList = new SelectList(_context.Media, "IdMedia", "FileName", atraction.MediaId);
             return View(atraction);
         }
 

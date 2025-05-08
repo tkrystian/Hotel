@@ -1,58 +1,107 @@
 ﻿@model Hotel.PortalWWW.Models.Rooms.Room
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodaj pokój";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Dodaj pokój</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <div class="mb-3">
+                    <label asp-for="Typ" class="form-label font-weight-bold"></label>
+                    <input asp-for="Typ" class="form-control" />
+                    <span asp-validation-for="Typ" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Numer" class="form-label font-weight-bold"></label>
+                    <input asp-for="Numer" class="form-control" />
+                    <span asp-validation-for="Numer" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Opis" class="form-label font-weight-bold"></label>
+                    <textarea asp-for="Opis" class="form-control"></textarea>
+                    <span asp-validation-for="Opis" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="LiczbaOsob" class="form-label font-weight-bold"></label>
+                    <input asp-for="LiczbaOsob" class="form-control" />
+                    <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Cena" class="form-label font-weight-bold"></label>
+                    <input asp-for="Cena" class="form-control" type="number" step="0.01" />
+                    <span asp-validation-for="Cena" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Status" class="form-label font-weight-bold"></label>
+                    <input asp-for="Status" class="form-control" />
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+                @* <div class="mb-3">
+                    <label asp-for="MediaId" class="form-label font-weight-bold"></label>
+                    <select asp-for="MediaId" class="form-control" asp-items="ViewBag.MediaList" id="mediaList">
+                        <option value="">-- Wybierz media --</option>
+                    </select>
+                    <span asp-validation-for="MediaId" class="text-danger"></span>
+                </div> *@
+                
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Wybierz obraz</label>
+                    <div class="row" id="mediaGallery">
+                        @foreach (var media in (List<Media>)ViewBag.MediaList)
+                        {
+                            <div class="col-3 mb-3">
+                                <img src="~/content/media/rooms/@media.FilePath"
+                                     data-id="@media.IdMedia"
+                                     class="img-thumbnail media-thumbnail"
+                                     style="cursor: pointer;" />
+                            </div>
+                        }
+                    </div>
+                    <input type="hidden" asp-for="MediaId" id="MediaId" />
+                    <span asp-validation-for="MediaId" class="text-danger"></span>
+                </div>
 
-<h4>Room</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Typ" class="control-label"></label>
-                <input asp-for="Typ" class="form-control" />
-                <span asp-validation-for="Typ" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Numer" class="control-label"></label>
-                <input asp-for="Numer" class="form-control" />
-                <span asp-validation-for="Numer" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Opis" class="control-label"></label>
-                <textarea asp-for="Opis" class="form-control"></textarea>
-                <span asp-validation-for="Opis" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="LiczbaOsob" class="control-label"></label>
-                <input asp-for="LiczbaOsob" class="form-control" />
-                <span asp-validation-for="LiczbaOsob" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Cena" class="control-label"></label>
-                <input asp-for="Cena" class="form-control" />
-                <span asp-validation-for="Cena" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Status" class="control-label"></label>
-                <input asp-for="Status" class="form-control" />
-                <span asp-validation-for="Status" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                @* <div class="mb-3">
+                    Podgląd:
+                    <div class="border rounded p-2">
+                        <img id="mediaPreview" src="" alt="Podgląd" class="img-fluid" style="display: none;" />
+                    </div>
+                </div> *@
+
+
+                <div class="text-end">
+                    <input type="submit" value="Dodaj" class="btn btn-primary me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
-
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/localization/messages_pl.min.js"></script>
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        $(document).ready(function () {
+            $('.media-thumbnail').click(function () {
+                const selectedId = $(this).data('id');
+                // const imageUrl = $(this).attr('src');
+
+                $('#MediaId').val(selectedId);
+                // $('#mediaPreview').attr('src', imageUrl).show();
+
+                $('.media-thumbnail').removeClass('border-primary border-3');
+                $(this).addClass('border-primary border-3');
+            });
+        });
+    </script>
 }

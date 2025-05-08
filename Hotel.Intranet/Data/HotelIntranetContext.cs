@@ -17,12 +17,13 @@ namespace Hotel.Intranet.Data
         {
         }
         public DbSet<Media> Media { get; set; } = default!;
-        public DbSet<Hotel.PortalWWW.Models.Atractions.Atraction> Atraction { get; set; } = default!;
-        public DbSet<Hotel.Intranet.Models.Intranet.Messages> Messages { get; set; } = default!;
-        public DbSet<Hotel.PortalWWW.Models.CMS.Page> Page { get; set; } = default!;
+        public DbSet<Atraction> Atraction { get; set; } = default!;
+        public DbSet<Messages> Messages { get; set; } = default!;
+        public DbSet<Page> Page { get; set; } = default!;
         public DbSet<Reservation> Reservation { get; set; } = default!;
-        public DbSet<Hotel.PortalWWW.Models.Rooms.Room> Room { get; set; } = default!;
+        public DbSet<Room> Room { get; set; } = default!;
         public DbSet<User> User { get; set; } = default!;
+        public DbSet<HomePage> HomePage { get; set; } = default!;
 
     }
 }

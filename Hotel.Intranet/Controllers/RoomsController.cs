@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Hotel.Intranet.Data;
 using Hotel.PortalWWW.Models.Rooms;
+using Hotel.PortalWWW.Models.Atractions;
+using Hotel.Intranet.Models.DTO;
 
 namespace Hotel.Intranet.Controllers
 {
@@ -22,7 +24,8 @@ namespace Hotel.Intranet.Controllers
         // GET: Rooms
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Room.ToListAsync());
+            return View(await _context.Room
+                .Include(a => a.Media).ToListAsync());
         }
 
         // GET: Rooms/Details/5
@@ -34,6 +37,7 @@ namespace Hotel.Intranet.Controllers
             }
 
             var room = await _context.Room
+                .Include(a => a.Media)
                 .FirstOrDefaultAsync(m => m.IdPokoju == id);
             if (room == null)
             {
@@ -46,6 +50,11 @@ namespace Hotel.Intranet.Controllers
         // GET: Rooms/Create
         public IActionResult Create()
         {
+            var media = _context.Media
+                .Where(m => m.RelatedObjectType == "rooms")
+                .ToList();
+
+            ViewBag.MediaList = media;
             return View();
         }
 
@@ -54,7 +63,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdPokoju,Typ,Numer,Opis,LiczbaOsob,Cena,Status")] Room room)
+        public async Task<IActionResult> Create([Bind("IdPokoju,Typ,Numer,Opis,LiczbaOsob,Cena,Status,MediaId")] Room room)
         {
             if (ModelState.IsValid)
             {
@@ -62,6 +71,7 @@ namespace Hotel.Intranet.Controllers
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.MediaList = new SelectList(_context.Media, "IdMedia", "FileName");
             return View(room);
         }
 
@@ -73,11 +83,25 @@ namespace Hotel.Intranet.Controllers
                 return NotFound();
             }
 
-            var room = await _context.Room.FindAsync(id);
+            var room = await _context.Room.Include(a => a.Media).FirstOrDefaultAsync(a => a.IdPokoju == id);
             if (room == null)
             {
                 return NotFound();
             }
+
+
+            var mediaList = await _context.Media
+                .Where(m => m.RelatedObjectType == "rooms")
+                .Select(m => new MediaDto
+                {
+                    Id = m.IdMedia,
+                    FilePath = m.FilePath
+                })
+                .ToListAsync();
+
+            ViewBag.MediaListJson = mediaList;
+
+
             return View(room);
         }
 
@@ -86,7 +110,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdPokoju,Typ,Numer,Opis,LiczbaOsob,Cena,Status")] Room room)
+        public async Task<IActionResult> Edit(int id, [Bind("IdPokoju,Typ,Numer,Opis,LiczbaOsob,Cena,Status,MediaId")] Room room)
         {
             if (id != room.IdPokoju)
             {
@@ -113,6 +137,7 @@ namespace Hotel.Intranet.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.MediaList = new SelectList(_context.Media, "IdMedia", "FileName", room.MediaId);
             return View(room);
         }
 

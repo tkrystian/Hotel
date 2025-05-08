@@ -1,60 +1,58 @@
 ﻿@model Media
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edytuj media";
 }
 
-<h1>Edit</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Edytuj media</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="IdMedia" />
 
-<h4>Media</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="IdMedia" />
-            <div class="form-group">
-                <label asp-for="FileName" class="control-label"></label>
-                <input asp-for="FileName" class="form-control" />
-                <span asp-validation-for="FileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RelatedObjectType" class="control-label"></label>
-                <select asp-for="RelatedObjectType" class="form-control" id="relatedObjectType">
-                    <option value="">-- Wybierz typ --</option>
-                    <option value="attractions">Atrakcje</option>
-                    <option value="rooms">Pokoje</option>
-                    <option value="misc">Inne</option>
-                </select>
-                <span asp-validation-for="RelatedObjectType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FilePath" class="control-label">Wybierz grafikę</label>
-                <select asp-for="FilePath" class="form-control" id="filePath">
-                    <option value="">-- Wybierz plik --</option>
-                    @foreach (var file in ViewBag.ContentFiles as List<string>)
-                    {
-                        <option value="@file" selected="@(file == ViewBag.SelectedFilePath ? "selected" : null)">@file</option>
-                    }
-                </select>
-                <span asp-validation-for="FilePath" class="text-danger"></span>
-            </div>
+                <div class="mb-3">
+                    <label asp-for="RelatedObjectType" class="form-label font-weight-bold"></label>
+                    <select asp-for="RelatedObjectType" class="form-control" id="relatedObjectType">
+                        <option value="">-- Wybierz typ --</option>
+                        <option value="attractions">Atrakcje</option>
+                        <option value="banners">Bannery</option>
+                        <option value="rooms">Pokoje</option>
+                        <option value="misc">Inne</option>
+                    </select>
+                    <span asp-validation-for="RelatedObjectType" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Wybierz grafikę</label>
+                    <div class="row" id="mediaGallery">
+                    </div>
+                    <input type="hidden" asp-for="FilePath" id="FilePath" />
+                    <span asp-validation-for="FilePath" class="text-danger"></span>
+                </div>
 
 
-            <div class="form-group">
-                <label asp-for="FileType" class="control-label"></label>
-                <input asp-for="FileType" class="form-control" />
-                <span asp-validation-for="FileType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label asp-for="FileName" class="form-label font-weight-bold"></label>
+                    <input asp-for="FileName" class="form-control" />
+                    <span asp-validation-for="FileName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FileType" class="form-label font-weight-bold"></label>
+                    <input asp-for="FileType" class="form-control" disabled/>
+                    <span asp-validation-for="FileType" class="text-danger"></span>
+                </div>
+                <div class="text-end">
+                    <input type="submit" value="Zapisz" class="btn btn-primary me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -63,24 +61,89 @@
     }
 
     <script>
-        document.getElementById('relatedObjectType').addEventListener('change', function () {
-            const selectedType = this.value;
-            const filePathDropdown = document.getElementById('filePath');
-            filePathDropdown.innerHTML = '<option value="">-- Wybierz plik --</option>';
+        function renderGallery(files, folder, selectedFilePath) {
+            const gallery = document.getElementById('mediaGallery');
+            gallery.innerHTML = '';
 
-            if (selectedType) {
-                fetch(`/Media/GetFilesByType?type=${selectedType}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(file => {
-                            const option = document.createElement('option');
-                            option.value = file;
-                            option.textContent = file;
-                            filePathDropdown.appendChild(option);
+            if (!files || files.length === 0) {
+                gallery.innerHTML = '<p class="text-danger">Brak dostępnych plików graficznych.</p>';
+                return;
+            }
+
+            files.forEach(file => {
+                const col = document.createElement('div');
+                col.className = 'col-3 mb-3';
+
+                const img = document.createElement('img');
+                img.src = `/content/media/${folder}/${file}`;
+                img.dataset.path = file;
+                img.style.cursor = 'pointer';
+                img.className = 'img-thumbnail media-thumbnail';
+                img.style.objectFit = 'cover';
+
+                if (file === selectedFilePath) {
+                    img.classList.add('border-primary', 'border-3');
+                }
+
+                img.addEventListener('click', function () {
+                    const filePathInput = document.getElementById('FilePath');
+                    const fileNameInput = document.getElementById('FileName');
+                    const fileTypeInput = document.getElementById('FileType');
+                    const file = this.dataset.path;
+
+                    document.querySelectorAll('.media-thumbnail').forEach(i => {
+                        i.classList.remove('border-primary', 'border-3');
+                    });
+                    this.classList.add('border-primary', 'border-3');
+
+                    filePathInput.value = file;
+
+                    const lastDotIndex = file.lastIndexOf('.');
+                    if (lastDotIndex !== -1) {
+                        const fileName = file.substring(0, lastDotIndex);
+                        fileNameInput.value = fileName;
+                    }
+
+                    fetch(`/content/media/${folder}/${file}`, { method: 'HEAD' })
+                        .then(response => {
+                            fileTypeInput.value = response.headers.get('Content-Type');
+
+                        })
+                        .catch(error => {
+                            console.error('Błąd przy pobieraniu Content-Type:', error);
+                            fileTypeInput.value = 'unknown';
                         });
-                    })
+                    });
+
+
+                        col.appendChild(img);
+                        gallery.appendChild(col);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const typeDropdown = document.getElementById('relatedObjectType');
+            const selectedFilePath = '@Model.FilePath';
+
+            function fetchGallery(type) {
+                if (!type) return;
+
+                fetch(`/Media/GetFilesByType?type=${type}`)
+                    .then(response => response.json())
+                    .then(data => renderGallery(data, type, selectedFilePath))
                     .catch(error => console.error('Error fetching files:', error));
             }
+
+            const initialType = typeDropdown.value;
+            if (initialType) {
+                fetchGallery(initialType);
+            }
+
+            typeDropdown.addEventListener('change', function () {
+                document.getElementById('FilePath').value = '';
+                fetchGallery(this.value);
+            });
         });
     </script>
 }
+

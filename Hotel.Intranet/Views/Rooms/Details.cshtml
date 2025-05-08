@@ -1,54 +1,47 @@
 ﻿@model Hotel.PortalWWW.Models.Rooms.Room
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły pokoju";
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Szczegóły pokoju</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">Typ</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Typ)</dd>
 
-<div>
-    <h4>Room</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Typ)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Typ)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Numer)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Numer)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Opis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Opis)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.LiczbaOsob)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.LiczbaOsob)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Cena)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Cena)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Status)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Status)
-        </dd>
-    </dl>
+                <dt class="col-sm-3 font-weight-bold">Numer</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Numer)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Opis</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Opis)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Liczba osób</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.LiczbaOsob)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Cena</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Cena)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Status</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Status)</dd>
+
+                @if (Model.Media != null)
+                {
+                    <dt class="col-sm-3 font-weight-bold">Media</dt>
+                    <dd class="col-sm-9"><img src="~/content/media/rooms/@Model.Media.FilePath" class="image-preview" /></dd>
+                }
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a asp-action="Edit" asp-route-id="@Model?.IdPokoju" class="btn btn-warning text-white me-2">✎ Edytuj</a>
+            <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+        </div>
+    </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdPokoju">Edit</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+
+
+

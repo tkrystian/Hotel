@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Hotel.PortalWWW.Models.Atractions
 {
@@ -29,6 +30,17 @@ namespace Hotel.PortalWWW.Models.Atractions
         [Display(Name = "Status")]
         public required string Status { get; set; }
 
+        [Display(Name = "Media")]
+        public int? MediaId { get; set; }
+
+        [ForeignKey("MediaId")]
         public Media? Media { get; set; }
+
+
+        [Display(Name = "Strona główna")]
+        public int? HomePageId { get; set; }
+        [ForeignKey("HomePageId")]
+        public HomePage? HomePage { get; set; }
+
     }
 }

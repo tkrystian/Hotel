@@ -1,48 +1,53 @@
 ﻿@model Media
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = "Szczegóły mediów";
+
+    string folder = Model.RelatedObjectType ?? "misc";
+    string previewPath = Url.Content($"~/content/media/{folder}/{Model.FilePath}");
+    bool isImage = Model.FileType?.StartsWith("image") == true;
 }
 
-<h1>Details</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Szczegóły mediów</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">Nazwa pliku</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FileName)</dd>
 
-<div>
-    <h4>Media</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FileName)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FileName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FilePath)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FilePath)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.FileType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.FileType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.RelatedObjectType)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.RelatedObjectType)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.CreatedAt)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.CreatedAt)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model?.IdMedia">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+                <dt class="col-sm-3 font-weight-bold">Ścieżka pliku</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FilePath)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Typ pliku</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FileType)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Powiązany obiekt</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.RelatedObjectType)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Data utworzenia</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.CreatedAt)</dd>
+            </dl>
+
+            @if (isImage)
+            {
+                <div class="mt-4 text-center">
+                    <p class="fw-bold">Podgląd:</p>
+                    <img src="@previewPath" class="img-fluid rounded border shadow-sm" style="max-height: 400px;" />
+                </div>
+            }
+            else
+            {
+                <div class="mt-4 text-center text-muted">
+                    <p class="fst-italic">Podgląd niedostępny dla tego typu pliku.</p>
+                </div>
+            }
+        </div>
+        <div class="card-footer text-end">
+            <a asp-action="Edit" asp-route-id="@Model?.IdMedia" class="btn btn-warning text-white me-2">✎ Edytuj</a>
+            <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+        </div>
+    </div>
 </div>

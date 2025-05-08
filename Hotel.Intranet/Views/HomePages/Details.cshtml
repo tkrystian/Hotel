@@ -1,0 +1,36 @@
+﻿@model HomePage
+
+@{
+    ViewData["Title"] = "Szczegóły strony głównej";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Szczegóły strony głównej</h4>
+        </div>
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">Baner</dt>
+                <dd class="col-sm-9"><img src="~/content/media/banners/@Model.Banner.FilePath" class="image-preview" /></dd>
+
+                <dt class="col-sm-3 font-weight-bold">Grafika</dt>
+                <dd class="col-sm-9"><img src="~/content/media/misc/@Model.Grafika.FilePath" class="image-preview" /></dd>
+
+                <dt class="col-sm-3 font-weight-bold">Nagłówek</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Naglowek)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Tagi</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Tagi)</dd>
+
+                <dt class="col-sm-3 font-weight-bold">Opis</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Opis)</dd>
+            </dl>
+        </div>
+        <div class="card-footer text-end">
+            <a asp-action="Edit" asp-route-id="@Model?.Id" class="btn btn-warning text-white me-2">✎ Edytuj</a>
+            <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+        </div>
+    </div>
+</div>
+

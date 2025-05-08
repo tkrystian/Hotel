@@ -1,55 +1,57 @@
 ﻿@model Media
 
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Dodaj media";
 }
 
-<h1>Create</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Dodaj media</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                
 
-<h4>Media</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="FileName" class="control-label"></label>
-                <input asp-for="FileName" class="form-control" />
-                <span asp-validation-for="FileName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="RelatedObjectType" class="control-label"></label>
-                <select asp-for="RelatedObjectType" class="form-control" id="relatedObjectType">
-                    <option value="">-- Wybierz typ --</option>
-                    <option value="attractions">Atrakcje</option>
-                    <option value="rooms">Pokoje</option>
-                    <option value="misc">Inne</option>
-                </select>
-                <span asp-validation-for="RelatedObjectType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="FilePath" class="control-label">Wybierz grafikę</label>
-                <select asp-for="FilePath" class="form-control" id="filePath">
-                    <option value="">-- Wybierz plik --</option>
-                </select>
-                <span asp-validation-for="FilePath" class="text-danger"></span>
-            </div>
 
-            
-            <div class="form-group">
-                <label asp-for="FileType" class="control-label"></label>
-                <input asp-for="FileType" class="form-control" />
-                <span asp-validation-for="FileType" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="mb-3">
+                    <label asp-for="RelatedObjectType" class="form-label font-weight-bold"></label>
+                    <select asp-for="RelatedObjectType" class="form-control" id="relatedObjectType">
+                        <option value="">-- Wybierz typ --</option>
+                        <option value="attractions">Atrakcje</option>
+                        <option value="banners">Bannery</option>
+                        <option value="rooms">Pokoje</option>
+                        <option value="misc">Inne</option>
+                    </select>
+                    <span asp-validation-for="RelatedObjectType" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label font-weight-bold">Wybierz grafikę</label>
+                    <div class="row" id="mediaGallery"></div>
+                    <input type="hidden" asp-for="FilePath" id="FilePath" />
+                    <span asp-validation-for="FilePath" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FileName" class="form-label font-weight-bold"></label>
+                    <input asp-for="FileName" class="form-control" />
+                    <span asp-validation-for="FileName" class="text-danger"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="FileType" class="form-label font-weight-bold"></label>
+                    <input asp-for="FileType" class="form-control" disabled/>
+                    <span asp-validation-for="FileType" class="text-danger"></span>
+                </div>
+                <div class="text-end">
+                    <input type="submit" value="Dodaj" class="btn btn-primary me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {
@@ -57,26 +59,65 @@
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
 
-    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
         document.getElementById('relatedObjectType').addEventListener('change', function () {
             const selectedType = this.value;
-            const filePathDropdown = document.getElementById('filePath');
-            filePathDropdown.innerHTML = '<option value="">-- Wybierz plik --</option>';
+            const gallery = document.getElementById('mediaGallery');
+            const filePathInput = document.getElementById('FilePath');
+            const fileNameInput = document.getElementById('FileName');
+            const fileTypeInput = document.getElementById('FileType');
+
+            gallery.innerHTML = '';
+            filePathInput.value = '';
+            fileNameInput.value = '';
+            fileTypeInput.value = '';
 
             if (selectedType) {
                 fetch(`/Media/GetFilesByType?type=${selectedType}`)
                     .then(response => response.json())
                     .then(data => {
                         data.forEach(file => {
-                            const option = document.createElement('option');
-                            option.value = file;
-                            option.textContent = file;
-                            filePathDropdown.appendChild(option);
+                            const col = document.createElement('div');
+                            col.className = 'col-md-3 mb-3';
+
+                            const img = document.createElement('img');
+                            img.src = `/content/media/${selectedType}/${file}`;
+                            img.className = 'img-thumbnail media-thumb';
+                            img.style.cursor = 'pointer';
+                            img.dataset.file = file;
+
+                            img.addEventListener('click', function () {
+
+                                document.querySelectorAll('.media-thumb').forEach(i => {
+                                    i.classList.remove('border-primary', 'border-3');
+                                });
+                                this.classList.add('border-primary', 'border-3');
+
+                                const selectedFile = this.dataset.file;
+                                const fullPath = `/content/media/${selectedType}/${selectedFile}`;
+
+                                filePathInput.value = selectedFile;
+                                fileNameInput.value = selectedFile.substring(0, selectedFile.lastIndexOf('.')) || selectedFile;
+
+
+                                fetch(fullPath, { method: 'HEAD' })
+                                    .then(res => {
+                                        const type = res.headers.get('Content-Type');
+                                        fileTypeInput.value = type || '';
+                                    })
+                                    .catch(err => {
+                                        console.error('Błąd pobierania typu MIME:', err);
+                                        fileTypeInput.value = '';
+                                    });
+                            });
+
+                            col.appendChild(img);
+                            gallery.appendChild(col);
                         });
                     })
-                    .catch(error => console.error('Error fetching files:', error));
+                    .catch(error => console.error('Błąd przy ładowaniu plików:', error));
             }
         });
     </script>
+
 }

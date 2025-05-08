@@ -1,0 +1,54 @@
+﻿@model HomePage
+
+@{
+    ViewData["Title"] = "Edytuj stronę główną";
+}
+
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Edytuj stronę główną</h4>
+        </div>
+        <div class="card-body">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                <input type="hidden" asp-for="Id" />
+                <div class="mb-3">
+                    <label asp-for="BannerId" class="form-label font-weight-bold"></label>
+                    <select asp-for="BannerId" class="form-control" asp-items="ViewBag.BannerId"></select>
+                    <span asp-validation-for="BannerId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="GrafikaId" class="form-label font-weight-bold"></label>
+                    <select asp-for="GrafikaId" class="form-control" asp-items="ViewBag.GrafikaId"></select>
+                    <span asp-validation-for="GrafikaId" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Naglowek" class="form-label font-weight-bold"></label>
+                    <input asp-for="Naglowek" class="form-control" />
+                    <span asp-validation-for="Naglowek" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Tagi" class="form-label font-weight-bold"></label>
+                    <input asp-for="Tagi" class="form-control" />
+                    <span asp-validation-for="Tagi" class="text-danger"></span>
+                </div>
+                <div class="mb-3">
+                    <label asp-for="Opis" class="form-label font-weight-bold"></label>
+                    <textarea asp-for="Opis" class="form-control"></textarea>
+                    <span asp-validation-for="Opis" class="text-danger"></span>
+                </div>
+                <div class="text-end">
+                    <input type="submit" value="Zapisz" class="btn btn-primary me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

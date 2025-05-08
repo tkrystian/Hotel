@@ -4,6 +4,7 @@ using Hotel.Intranet.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hotel.Intranet.Migrations
 {
     [DbContext(typeof(HotelIntranetContext))]
-    partial class HotelIntranetContextModelSnapshot : ModelSnapshot
+    [Migration("20250507190726_AddHomePageMigration")]
+    partial class AddHomePageMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,10 +33,10 @@ namespace Hotel.Intranet.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("BannerId")
+                    b.Property<int?>("BannerIdMedia")
                         .HasColumnType("int");
 
-                    b.Property<int?>("GrafikaId")
+                    b.Property<int?>("GrafikaIdMedia")
                         .HasColumnType("int");
 
                     b.Property<string>("Naglowek")
@@ -53,9 +56,9 @@ namespace Hotel.Intranet.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("BannerId");
+                    b.HasIndex("BannerIdMedia");
 
-                    b.HasIndex("GrafikaId");
+                    b.HasIndex("GrafikaIdMedia");
 
                     b.ToTable("HomePage");
                 });
@@ -119,7 +122,7 @@ namespace Hotel.Intranet.Migrations
                     b.Property<int?>("HomePageId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MediaId")
+                    b.Property<int?>("MediaIdMedia")
                         .HasColumnType("int");
 
                     b.Property<string>("Nazwa")
@@ -141,7 +144,7 @@ namespace Hotel.Intranet.Migrations
 
                     b.HasIndex("HomePageId");
 
-                    b.HasIndex("MediaId");
+                    b.HasIndex("MediaIdMedia");
 
                     b.ToTable("Atraction");
                 });
@@ -194,7 +197,7 @@ namespace Hotel.Intranet.Migrations
                     b.Property<int>("LiczbaOsob")
                         .HasColumnType("int");
 
-                    b.Property<int?>("MediaId")
+                    b.Property<int?>("MediaIdMedia")
                         .HasColumnType("int");
 
                     b.Property<int>("Numer")
@@ -219,7 +222,7 @@ namespace Hotel.Intranet.Migrations
 
                     b.HasIndex("HomePageId");
 
-                    b.HasIndex("MediaId");
+                    b.HasIndex("MediaIdMedia");
 
                     b.ToTable("Room");
                 });
@@ -340,11 +343,11 @@ namespace Hotel.Intranet.Migrations
                 {
                     b.HasOne("Media", "Banner")
                         .WithMany()
-                        .HasForeignKey("BannerId");
+                        .HasForeignKey("BannerIdMedia");
 
                     b.HasOne("Media", "Grafika")
                         .WithMany()
-                        .HasForeignKey("GrafikaId");
+                        .HasForeignKey("GrafikaIdMedia");
 
                     b.Navigation("Banner");
 
@@ -364,30 +367,26 @@ namespace Hotel.Intranet.Migrations
 
             modelBuilder.Entity("Hotel.PortalWWW.Models.Atractions.Atraction", b =>
                 {
-                    b.HasOne("HomePage", "HomePage")
+                    b.HasOne("HomePage", null)
                         .WithMany("Atrakcje")
                         .HasForeignKey("HomePageId");
 
                     b.HasOne("Media", "Media")
                         .WithMany("Atractions")
-                        .HasForeignKey("MediaId");
-
-                    b.Navigation("HomePage");
+                        .HasForeignKey("MediaIdMedia");
 
                     b.Navigation("Media");
                 });
 
             modelBuilder.Entity("Hotel.PortalWWW.Models.Rooms.Room", b =>
                 {
-                    b.HasOne("HomePage", "HomePage")
+                    b.HasOne("HomePage", null)
                         .WithMany("Pokoje")
                         .HasForeignKey("HomePageId");
 
                     b.HasOne("Media", "Media")
                         .WithMany("Rooms")
-                        .HasForeignKey("MediaId");
-
-                    b.Navigation("HomePage");
+                        .HasForeignKey("MediaIdMedia");
 
                     b.Navigation("Media");
                 });

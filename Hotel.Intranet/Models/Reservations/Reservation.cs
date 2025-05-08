@@ -21,6 +21,8 @@ public class Reservation
     [StringLength(50, ErrorMessage = "Typ rezerwacji nie mo¿e przekraczaæ 50 znaków.")]
     public required string TypRezerwacji { get; set; }
 
+    [Display(Name = "Id u¿ytkownika")]
+
     [ForeignKey("User")]
     public int UzytkownikId { get; set; }
 
@@ -29,4 +31,5 @@ public class Reservation
 
     [NotMapped]
     public Room? Room { get; set; }
+
 }

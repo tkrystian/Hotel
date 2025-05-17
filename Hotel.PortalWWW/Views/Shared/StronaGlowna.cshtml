@@ -1,0 +1,49 @@
+﻿@using Hotel.Data.Data.Atractions
+@using Hotel.Data.Data.DTO
+@model IEnumerable<HomePageMediaDTO>
+@foreach (HomePageMediaDTO item in Model.Where(m => m.HomePage?.Id == 1))
+{
+    <div class="container">
+        <div class="text-center mb-4">
+            <img src="/shared/media/banners/@item.Banner?.FilePath" class="img-fluid banner" alt="@item.Banner?.FileName" />
+        </div>
+        <div class="text-center">
+            <h1 class="header-text">@item.HomePage?.Naglowek</h1>
+        </div>
+        <div class="row align-items-center mb-5">
+            <div class="col-md-7 col-sm-12">
+                <div class="row-headers mb-3 text-center text-md-start">
+                    <p>@item.HomePage?.Tagi</p>
+                </div>
+                <div class="row-description text-center text-md-start">
+                    <p>@Html.Raw(item.HomePage?.Opis.Replace(Environment.NewLine, "</p><p>"))</p>
+                </div>
+            </div>
+            <div class="col-md-5 col-sm-12 text-center">
+                <img src="/shared/media/misc/@item.Grafika?.FilePath" class="img-fluid tratwa" alt="Tratwa" />
+            </div>
+        </div>
+
+        <div class="text-center">
+            <h1 class="header-text">Poznaj naszą ofertę</h1>
+        </div>
+
+        <div class="row row-cols-1 row-cols-md-2 g-5 justify-content-center">
+            @foreach (var atrakcja in (ViewBag.Atrakcje as List<Atraction>)?.Take(4))
+            {
+                <div class="col">
+                    <div class="card h-100 d-flex flex-col p-3">
+                        <img src="/shared/media/attractions/@atrakcja.Media?.FilePath" class="card-img-top" alt="@atrakcja.Media?.FileName">
+                        <div class="card-body">
+                            <h5 class="card-title">@atrakcja.Nazwa</h5>
+                            <p class="card-text">
+                                @atrakcja.Opis
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }  
+        </div>
+    </div>
+
+}

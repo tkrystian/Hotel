@@ -1,51 +1,58 @@
-﻿@model HomePage
+﻿@using Hotel.Data.Data.CMS
+@model HomePage
 
 @{
-    ViewData["Title"] = "Delete";
+    ViewData["Title"] = "Usuń stronę główną";
 }
 
-<h1>Delete</h1>
+<div class="container mt-4">
+    <div class="card shadow-sm">
+        <div class="card-header bg-danger text-white">
+            <h4 class="mb-0">Usuń stronę główną</h4>
+        </div>
+        <div class="card-body">
+            <h5 class="text-danger">Czy na pewno chcesz usunąć tę stronę główną?</h5>
+            <hr />
+            <dl class="row">
+                <dt class="col-sm-3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Banner)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Banner.FileName)
+                </dd>
+                <dt class="col-sm-3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Grafika)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Grafika.FileName)
+                </dd>
+                <dt class="col-sm-3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Naglowek)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Naglowek)
+                </dd>
+                <dt class="col-sm-3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Tagi)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Tagi)
+                </dd>
+                <dt class="col-sm-3 font-weight-bold">
+                    @Html.DisplayNameFor(model => model.Opis)
+                </dt>
+                <dd class="col-sm-9">
+                    @Html.DisplayFor(model => model.Opis)
+                </dd>
+            </dl>
 
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <h4>HomePage</h4>
-    <hr />
-    <dl class="row">
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Banner)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Banner.FileName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Grafika)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Grafika.FileName)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Naglowek)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Naglowek)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Tagi)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Tagi)
-        </dd>
-        <dt class = "col-sm-2">
-            @Html.DisplayNameFor(model => model.Opis)
-        </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Opis)
-        </dd>
-    </dl>
-    
-    <form asp-action="Delete">
-        <input type="hidden" asp-for="Id" />
-        <input type="submit" value="Delete" class="btn btn-danger" /> |
-        <a asp-action="Index">Back to List</a>
-    </form>
+            <form asp-action="Delete">
+                <input type="hidden" asp-for="Id" />
+                <div class="text-end">
+                    <input type="submit" value="Usuń" class="btn btn-danger me-2" />
+                    <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>

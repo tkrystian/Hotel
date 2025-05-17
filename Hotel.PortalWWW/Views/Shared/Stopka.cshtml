@@ -1,0 +1,26 @@
+﻿@using Hotel.Data.Data.Atractions
+@model IEnumerable<Atraction>
+
+
+<div class="container">
+    <div class="row g-3">
+        <div class="card-group slider">
+
+            @foreach (var item in Model)
+            {
+                <div class="card card-footer">
+                    <div class="img-container">
+                        <img src="~/content/atractions/@item.Media?.FilePath" class="card-img-top card-footer-img" alt="@item.Media?.FileName">
+                    </div>
+                    <div class="arrow-wrapper">
+                        <div class="arrow-icon">&#8594;</div>
+                    </div>
+                    <div class="arrow-text">
+                        <p>@item.Nazwa</p>
+                    </div>
+                </div>
+            }
+        </div>
+        &copy; 2025 - Hotel Atlantyk
+    </div>
+</div>

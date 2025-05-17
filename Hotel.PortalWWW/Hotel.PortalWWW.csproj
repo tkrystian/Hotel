@@ -15,6 +15,13 @@
 
   <ItemGroup>
 	  <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.11" />
+	  <PackageReference Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.Data\Hotel.Data.csproj" />
+    <ProjectReference Include="..\Hotel.SharedUI\Hotel.SharedUI.csproj" />
   </ItemGroup>
 
 </Project>

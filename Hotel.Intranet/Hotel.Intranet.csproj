@@ -24,7 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Data\" />
     <Folder Include="Migrations\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Hotel.Data\Hotel.Data.csproj" />
+    <ProjectReference Include="..\Hotel.SharedUI\Hotel.SharedUI.csproj" />
   </ItemGroup>
 
 </Project>

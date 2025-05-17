@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
+using Hotel.Data.Data;
+using Hotel.Data.Data.DTO;
 
 namespace Hotel.Intranet.Controllers
 {
     public class HomePagesController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public HomePagesController(HotelIntranetContext context)
+        public HomePagesController(HotelContext context)
         {
             _context = context;
         }
@@ -68,7 +69,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,BannerId,GrafikaId,Naglowek,Tagi,Opis")] HomePage homePage)
+        public async Task<IActionResult> Create([Bind("Id,BannerId,GrafikaId,Naglowek,Tagi,Opis")] Data.Data.CMS.HomePage homePage)
         {
             if (ModelState.IsValid)
             {
@@ -116,7 +117,7 @@ namespace Hotel.Intranet.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,BannerId,GrafikaId,Naglowek,Tagi,Opis")] HomePage homePage)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,BannerId,GrafikaId,Naglowek,Tagi,Opis")] Data.Data.CMS.HomePage homePage)
         {
             if (id != homePage.Id)
             {
@@ -187,5 +188,6 @@ namespace Hotel.Intranet.Controllers
         {
             return _context.HomePage.Any(e => e.Id == id);
         }
+
     }
 }

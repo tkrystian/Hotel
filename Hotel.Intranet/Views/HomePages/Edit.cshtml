@@ -1,4 +1,5 @@
-﻿@model HomePage
+﻿@using Hotel.Data.Data.CMS
+@model HomePage
 
 @{
     ViewData["Title"] = "Edytuj stronę główną";
@@ -13,31 +14,39 @@
             <form asp-action="Edit">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <input type="hidden" asp-for="Id" />
+
                 <div class="mb-3">
                     <label asp-for="BannerId" class="form-label font-weight-bold"></label>
                     <select asp-for="BannerId" class="form-control" asp-items="ViewBag.BannerId"></select>
                     <span asp-validation-for="BannerId" class="text-danger"></span>
+                    <div id="gallery-banner" class="row mt-2"></div>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="GrafikaId" class="form-label font-weight-bold"></label>
                     <select asp-for="GrafikaId" class="form-control" asp-items="ViewBag.GrafikaId"></select>
                     <span asp-validation-for="GrafikaId" class="text-danger"></span>
+                    <div id="gallery-grafika" class="row mt-2"></div>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Naglowek" class="form-label font-weight-bold"></label>
                     <input asp-for="Naglowek" class="form-control" />
                     <span asp-validation-for="Naglowek" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Tagi" class="form-label font-weight-bold"></label>
                     <input asp-for="Tagi" class="form-control" />
                     <span asp-validation-for="Tagi" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Opis" class="form-label font-weight-bold"></label>
                     <textarea asp-for="Opis" class="form-control"></textarea>
                     <span asp-validation-for="Opis" class="text-danger"></span>
                 </div>
+
                 <div class="text-end">
                     <input type="submit" value="Zapisz" class="btn btn-primary me-2" />
                     <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>
@@ -48,6 +57,48 @@
 </div>
 
 @section Scripts {
+    <script>
+        function createMediaGallery(selectId, galleryId, folder) {
+            const select = document.getElementById(selectId);
+            const gallery = document.getElementById(galleryId);
+
+            fetch(`/Media/GetFilesByTypeWithId?type=${folder}`)
+                .then(response => response.json())
+                .then(files => {
+                    files.forEach(file => {
+                        const col = document.createElement('div');
+                        col.className = 'col-3 mb-3';
+
+                        const img = document.createElement('img');
+                        img.src = `/content/media/${folder}/${file.filePath}`;
+                        img.dataset.path = file.filePath;
+                        img.dataset.id = file.id;
+                        img.className = 'img-thumbnail media-thumbnail';
+                        img.style.cursor = 'pointer';
+                        img.style.objectFit = 'cover';
+
+                        if (select.value == file.id) {
+                            img.classList.add('border', 'border-primary', 'border-3');
+                        }
+
+                        img.onclick = () => {
+                            select.value = file.id;
+                            document.querySelectorAll(`#${galleryId} .media-thumbnail`).forEach(i => {
+                                i.classList.remove('border', 'border-primary', 'border-3');
+                            });
+                            img.classList.add('border', 'border-primary', 'border-3');
+                        };
+
+                        col.appendChild(img);
+                        gallery.appendChild(col);
+                    });
+                });
+        }
+
+        createMediaGallery('BannerId', 'gallery-banner', 'banners');
+        createMediaGallery('GrafikaId', 'gallery-grafika', 'misc');
+    </script>
+
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }

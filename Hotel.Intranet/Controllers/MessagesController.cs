@@ -5,16 +5,18 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
-using Hotel.Intranet.Models.Intranet;
+using Hotel.Data.Data;
+using Hotel.Data.Data.DTO;
+using Hotel.Data.Data.Users;
+using Hotel.Data.Data.Messages;
 
 namespace Hotel.Intranet.Controllers
 {
     public class MessagesController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public MessagesController(HotelIntranetContext context)
+        public MessagesController(HotelContext context)
         {
             _context = context;
         }
@@ -22,99 +24,180 @@ namespace Hotel.Intranet.Controllers
         // GET: Messages
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Messages.ToListAsync());
+            var messages = await _context.Message
+                 .Include(m => m.UserMessages)
+                 .ThenInclude(um => um.Sender!)
+                 .Include(m => m.UserMessages)
+                 .ThenInclude(um => um.Recipient!)
+                 .ToListAsync();
+
+
+            return View(messages);
         }
 
         // GET: Messages/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var messages = await _context.Messages
+            var message = await _context.Message
+                .Include(m => m.UserMessages)
+                .ThenInclude(um => um.Sender)
+                .Include(m => m.UserMessages)
+                .ThenInclude(um => um.Recipient)
                 .FirstOrDefaultAsync(m => m.IdWiadomosci == id);
-            if (messages == null)
-            {
-                return NotFound();
-            }
 
-            return View(messages);
+            if (message == null) return NotFound();
+
+            var userMessage = message.UserMessages.FirstOrDefault();
+
+            var dto = new MessageDto
+            {
+                IdWiadomosci = message.IdWiadomosci,
+                Temat = message.Temat,
+                Tresc = message.Tresc,
+                DataWyslania = message.DataWyslania,
+                SenderName = userMessage?.Sender?.Imie,
+                RecipientName = userMessage?.Recipient?.Imie
+            };
+
+            return View(dto);
         }
+
 
         // GET: Messages/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View();
+            var users = await _context.User.ToListAsync();
+
+            var dto = new MessageDto
+            {
+                DataWyslania = DateTime.Now,
+                Users = users.Select(u => new SelectListItem
+                {
+                    Value = u.IdUzytkownika.ToString(),
+                    Text = u.Imie
+                }).ToList()
+            };
+
+            return View(dto);
         }
 
+
         // POST: Messages/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("IdWiadomosci,Temat,Tresc,DataWyslania,NadawcaId,OdbiorcaId,Status")] Messages messages)
+        public async Task<IActionResult> Create(MessageDto dto)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.Add(messages);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                var users = await _context.User.ToListAsync();
+                dto.Users = users.Select(u => new SelectListItem
+                {
+                    Value = u.IdUzytkownika.ToString(),
+                    Text = u.Imie
+                }).ToList();
+                return View(dto);
             }
-            return View(messages);
+
+            var message = new Message
+            {
+                Temat = dto.Temat ?? string.Empty,
+                Tresc = dto.Tresc ?? string.Empty,
+                DataWyslania = dto.DataWyslania
+            };
+
+            _context.Message.Add(message);
+            await _context.SaveChangesAsync();
+
+            var userMessage = new UserMessages
+            {
+                MessageId = message.IdWiadomosci,
+                SenderId = dto.SenderId,
+                RecipientId = dto.RecipientId,
+                Status = MessageStatus.Wyslana
+            };
+
+            _context.UserMessages.Add(userMessage);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Messages/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
+            if (id == null) return NotFound();
 
-            var messages = await _context.Messages.FindAsync(id);
-            if (messages == null)
+            var message = await _context.Message
+                .Include(m => m.UserMessages)
+                .FirstOrDefaultAsync(m => m.IdWiadomosci == id);
+
+            if (message == null) return NotFound();
+
+            var userMessage = message.UserMessages.FirstOrDefault();
+            if (userMessage == null) return NotFound();
+
+            var users = await _context.User.ToListAsync();
+
+            var dto = new MessageDto
             {
-                return NotFound();
-            }
-            return View(messages);
+                IdWiadomosci = message.IdWiadomosci,
+                Temat = message.Temat,
+                Tresc = message.Tresc,
+                DataWyslania = message.DataWyslania,
+                SenderId = userMessage.SenderId,
+                RecipientId = userMessage.RecipientId,
+                Users = users.Select(u => new SelectListItem
+                {
+                    Value = u.IdUzytkownika.ToString(),
+                    Text = u.Imie
+                }).ToList()
+            };
+
+            return View(dto);
         }
+
 
         // POST: Messages/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("IdWiadomosci,Temat,Tresc,DataWyslania,NadawcaId,OdbiorcaId,Status")] Messages messages)
+        public async Task<IActionResult> Edit(MessageDto dto)
         {
-            if (id != messages.IdWiadomosci)
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                var users = await _context.User.ToListAsync();
+                dto.Users = users.Select(u => new SelectListItem
+                {
+                    Value = u.IdUzytkownika.ToString(),
+                    Text = u.Imie
+                }).ToList();
+
+                return View(dto);
             }
 
-            if (ModelState.IsValid)
+            var message = await _context.Message
+                .Include(m => m.UserMessages)
+                .FirstOrDefaultAsync(m => m.IdWiadomosci == dto.IdWiadomosci);
+
+            if (message == null) return NotFound();
+
+            message.Temat = dto.Temat ?? string.Empty;
+            message.Tresc = dto.Tresc ?? string.Empty;
+            message.DataWyslania = dto.DataWyslania;
+
+            var userMessage = message.UserMessages.FirstOrDefault();
+            if (userMessage != null)
             {
-                try
-                {
-                    _context.Update(messages);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!MessagesExists(messages.IdWiadomosci))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                userMessage.SenderId = dto.SenderId;
+                userMessage.RecipientId = dto.RecipientId;
             }
-            return View(messages);
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
+
 
         // GET: Messages/Delete/5
         public async Task<IActionResult> Delete(int? id)
@@ -124,14 +207,19 @@ namespace Hotel.Intranet.Controllers
                 return NotFound();
             }
 
-            var messages = await _context.Messages
+            var message = await _context.Message
+                .Include(m => m.UserMessages)
+                .ThenInclude(um => um.Sender)
+                .Include(m => m.UserMessages)
+                .ThenInclude(um => um.Recipient)
                 .FirstOrDefaultAsync(m => m.IdWiadomosci == id);
-            if (messages == null)
+
+            if (message == null)
             {
                 return NotFound();
             }
 
-            return View(messages);
+            return View(message);
         }
 
         // POST: Messages/Delete/5
@@ -139,19 +227,24 @@ namespace Hotel.Intranet.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var messages = await _context.Messages.FindAsync(id);
-            if (messages != null)
+            var message = await _context.Message
+                .Include(m => m.UserMessages)
+                .FirstOrDefaultAsync(m => m.IdWiadomosci == id);
+
+            if (message != null)
             {
-                _context.Messages.Remove(messages);
+                _context.UserMessages.RemoveRange(message.UserMessages);
+                _context.Message.Remove(message);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool MessagesExists(int id)
+
+        private bool UserMessagesExists(int id)
         {
-            return _context.Messages.Any(e => e.IdWiadomosci == id);
+            return _context.UserMessages.Any(e => e.MessageId == id);
         }
     }
 }

@@ -5,16 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
-using Hotel.PortalWWW.Models.CMS;
+using Hotel.Data.Data;
+using Hotel.Data.Data.CMS;
 
 namespace Hotel.Intranet.Controllers
 {
     public class PagesController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public PagesController(HotelIntranetContext context)
+        public PagesController(HotelContext context)
         {
             _context = context;
         }

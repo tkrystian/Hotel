@@ -1,5 +1,6 @@
-﻿@using Hotel.Intranet.Models.DTO
-@model Hotel.PortalWWW.Models.Rooms.Room
+﻿@using Hotel.Data.Data.DTO
+@using Hotel.Data.Data.Rooms
+@model Room
 
 @{
     ViewData["Title"] = "Edytuj pokój";
@@ -47,9 +48,9 @@
                 <div class="mb-3">
                     <label asp-for="MediaId" class="form-label font-weight-bold">Wybierz media</label>
                     <div class="row" id="mediaGallery">
-                        @if (ViewBag.MediaListJson != null)
+                        @if (ViewBag.MediaListJson is List<MediaDto> mediaList && mediaList.Any())
                         {
-                            foreach (var media in ViewBag.MediaListJson as List<MediaDto>)
+                            foreach (var media in mediaList)
                             {
                                 <div class="col-3 mb-3">
                                     <img src="~/content/media/rooms/@media.FilePath"

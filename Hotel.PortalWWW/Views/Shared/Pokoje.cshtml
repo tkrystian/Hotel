@@ -1,0 +1,27 @@
+﻿@using Hotel.Data.Data.Rooms
+@model IEnumerable<Room>
+
+<div class="container">
+    <div class="row row-cols-1 g-0 justify-content-center">
+        <h1 class="rooms-header">Poznaj naszą ofertę</h1>
+        @foreach (var item in Model)
+        {
+            <div class="col-md-12 rooms-wide-card">
+                <div class="card h-100 d-flex flex-row p-3">
+                    <img src="/shared/media/rooms/@item.Media?.FilePath" class="card-img-left" alt="@item.Media?.FileName">
+                    <div class="card-body">
+                        <h5 class="card-title ms-3">@item.Typ</h5>
+                        <p class="card-text ms-2">
+                            @item.Opis
+                        </p>
+                        <div class="d-flex flex-wrap gap-2 mt-2">
+                            <span class="badge p-2" style="background-color: #cac9f0; color: #5b6e7f;">Liczba osób: @item.LiczbaOsob</span>
+                            <span class="badge p-2" style="background-color: #b8e0db; color: #5b6e7f;">Cena: @item.Cena.ToString("C")</span>
+                            <span class="badge p-2" style="background-color: #eaecce; color: #5b6e7f; ">Status: @item.Status</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

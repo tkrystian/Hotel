@@ -5,17 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
-using Hotel.PortalWWW.Models.Atractions;
-using Hotel.Intranet.Models.DTO;
+using Hotel.Data.Data;
+using Hotel.Data.Data.Atractions;
+using Hotel.Data.Data.DTO;
 
 namespace Hotel.Intranet.Controllers
 {
     public class AtractionsController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
         
-        public AtractionsController(HotelIntranetContext context)
+        public AtractionsController(HotelContext context)
         {
             _context = context;
         }

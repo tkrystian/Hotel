@@ -5,15 +5,17 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
+using Hotel.Data.Data;
+using Hotel.Data.Data.DTO;
+using Hotel.Data.Data.CMS;
 
 namespace Hotel.Intranet.Controllers
 {
     public class MediaController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public MediaController(HotelIntranetContext context)
+        public MediaController(HotelContext context)
         {
             _context = context;
         }
@@ -190,6 +192,20 @@ namespace Hotel.Intranet.Controllers
                 ? Directory.GetFiles(contentDirectory).Select(file => Path.GetFileName(file) ?? string.Empty).ToList()
                 : new List<string>();
 
+
+            return Json(files);
+        }
+        [HttpGet]
+        public IActionResult GetFilesByTypeWithId(string type)
+        {
+            var files = _context.Media
+                .Where(m => m.RelatedObjectType == type)
+                .Select(m => new MediaDto
+                {
+                    Id = m.IdMedia,
+                    FilePath = m.FilePath
+                })
+                .ToList();
 
             return Json(files);
         }

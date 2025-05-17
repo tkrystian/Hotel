@@ -1,4 +1,5 @@
-﻿@model HomePage
+﻿@using Hotel.Data.Data.CMS
+@model HomePage
 
 @{
     ViewData["Title"] = "Dodaj stronę główną";
@@ -13,13 +14,17 @@
             <form asp-action="Create">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
                 <div class="mb-3">
-                    <label asp-for="BannerId" class="form-label font-weight-bold"></label>
-                    <select asp-for="BannerId" class="form-control" asp-items="ViewBag.BannerId"></select>
+                    <label class="form-label font-weight-bold">Wybierz banner</label>
+                    <div class="row" id="bannerGallery"></div>
+                    <select asp-for="BannerId" class="form-control d-none" asp-items="ViewBag.BannerId"></select>
                 </div>
+
                 <div class="mb-3">
-                    <label asp-for="GrafikaId" class="form-label font-weight-bold"></label>
-                    <select asp-for="GrafikaId" class="form-control" asp-items="ViewBag.GrafikaId"></select>
+                    <label class="form-label font-weight-bold">Wybierz grafikę</label>
+                    <div class="row" id="grafikaGallery"></div>
+                    <select asp-for="GrafikaId" class="form-control d-none" asp-items="ViewBag.GrafikaId"></select>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Naglowek" class="form-label font-weight-bold"></label>
                     <input asp-for="Naglowek" class="form-control" />
@@ -48,4 +53,51 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        function renderGallery(files, folder, targetGalleryId, targetSelectId) {
+            const gallery = document.getElementById(targetGalleryId);
+            gallery.innerHTML = '';
+
+            if (!files || files.length === 0) {
+                gallery.innerHTML = '<p class="text-danger">Brak dostępnych plików.</p>';
+                return;
+            }
+
+            files.forEach(file => {
+                const col = document.createElement('div');
+                col.className = 'col-3 mb-3';
+
+                const img = document.createElement('img');
+                img.src = `/content/media/${folder}/${file.filePath}`;
+                img.dataset.id = file.id;
+                img.title = file.name;
+                img.className = 'img-thumbnail media-thumbnail';
+                img.style.cursor = 'pointer';
+                img.style.objectFit = 'cover';
+
+                img.addEventListener('click', function () {
+                    document.getElementById(targetSelectId).value = file.id;
+
+                    document.querySelectorAll(`#${targetGalleryId} .media-thumbnail`)
+                        .forEach(el => el.classList.remove('border-primary', 'border-3'));
+                    this.classList.add('border-primary', 'border-3');
+                });
+
+                col.appendChild(img);
+                gallery.appendChild(col);
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+
+            fetch('/Media/GetFilesByTypeWithId?type=banners')
+                .then(res => res.json())
+                .then(data => renderGallery(data, 'banners', 'bannerGallery', 'BannerId'));
+
+            fetch('/Media/GetFilesByTypeWithId?type=misc')
+                .then(res => res.json())
+                .then(data => renderGallery(data, 'misc', 'grafikaGallery', 'GrafikaId'));
+        });
+    </script>
 }

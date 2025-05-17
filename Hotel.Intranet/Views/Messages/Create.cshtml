@@ -1,4 +1,5 @@
-﻿@model Hotel.Intranet.Models.Intranet.Messages
+﻿@using Hotel.Data.Data.DTO
+@model MessageDto
 
 @{
     ViewData["Title"] = "Dodaj wiadomość";
@@ -27,26 +28,18 @@
                     <input asp-for="DataWyslania" class="form-control" />
                     <span asp-validation-for="DataWyslania" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
-                    <label asp-for="NadawcaId" class="form-label font-weight-bold"></label>
-                    <input asp-for="NadawcaId" class="form-control" />
-                    <span asp-validation-for="NadawcaId" class="text-danger"></span>
+                    <label for="SenderId" class="form-label font-weight-bold">Nadawca</label>
+                    <select asp-for="SenderId" asp-items="Model.Users" class="form-select"></select>
                 </div>
+
                 <div class="mb-3">
-                    <label asp-for="OdbiorcaId" class="form-label font-weight-bold"></label>
-                    <input asp-for="OdbiorcaId" class="form-control" />
-                    <span asp-validation-for="OdbiorcaId" class="text-danger"></span>
+                    <label for="RecipientId" class="form-label font-weight-bold">Odbiorca</label>
+                    <select asp-for="RecipientId" asp-items="Model.Users" class="form-select"></select>
                 </div>
-                <div class="mb-3">
-                    <label asp-for="Status" class="form-label font-weight-bold"></label>
-                    <select asp-for="Status" class="form-control">
-                        @foreach (var status in Enum.GetValues(typeof(Hotel.Intranet.Models.Intranet.MessageStatus)))
-                        {
-                            <option value="@((int)status)">@status</option>
-                        }
-                    </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
-                </div>
+
+
                 <div class="text-end">
                     <input type="submit" value="Dodaj" class="btn btn-primary me-2" />
                     <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>

@@ -1,0 +1,25 @@
+﻿@using Hotel.Data.Data.Atractions
+@model IEnumerable<Atraction>
+
+<div class="container">
+    <h1 class="rooms-header">Atrakcje</h1>
+    <div class="row row-cols-3 justify-content-center gap-5 mt-4">
+        @foreach (var item in Model)
+        {
+            <div class="col-4">
+                <div class="card align-items-center text-center atraction-card">
+                    <div class="img-container">
+                        <img src="/shared/media/attractions/@item.Media?.FilePath" class="card-img-top" alt="@item.Media?.FileName">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Nazwa</h5>
+                        <p class="card-text">
+                            @item.Opis
+                        </p>
+                        <a href="#" class="btn atraction-btn">Rezerwuj</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

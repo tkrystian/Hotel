@@ -1,4 +1,5 @@
-﻿@model Hotel.Intranet.Models.Intranet.Messages
+﻿@using Hotel.Data.Data.DTO
+@model MessageDto
 
 @{
     ViewData["Title"] = "Szczegóły wiadomości";
@@ -12,22 +13,19 @@
         <div class="card-body">
             <dl class="row">
                 <dt class="col-sm-3 font-weight-bold">Temat</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Temat)</dd>
+                <dd class="col-sm-9">@Model.Temat</dd>
 
                 <dt class="col-sm-3 font-weight-bold">Treść</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Tresc)</dd>
+                <dd class="col-sm-9">@Model.Tresc</dd>
 
                 <dt class="col-sm-3 font-weight-bold">Data wysłania</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.DataWyslania)</dd>
+                <dd class="col-sm-9">@Model.DataWyslania.ToString("dd.MM.yyyy HH:mm")</dd>
 
                 <dt class="col-sm-3 font-weight-bold">Nadawca</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.NadawcaId)</dd>
+                <dd class="col-sm-9">@Model.SenderName</dd>
 
                 <dt class="col-sm-3 font-weight-bold">Odbiorca</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.OdbiorcaId)</dd>
-
-                <dt class="col-sm-3 font-weight-bold">Status</dt>
-                <dd class="col-sm-9">@Html.DisplayFor(model => model.Status)</dd>
+                <dd class="col-sm-9">@Model.RecipientName</dd>
             </dl>
         </div>
         <div class="card-footer text-end">

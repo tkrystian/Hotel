@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
+using Hotel.Data.Data;
+using Hotel.Data.Data.Reservations;
 
 namespace Hotel.Intranet.Controllers
 {
     public class ReservationsController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public ReservationsController(HotelIntranetContext context)
+        public ReservationsController(HotelContext context)
         {
             _context = context;
         }

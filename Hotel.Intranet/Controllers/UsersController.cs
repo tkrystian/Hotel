@@ -5,15 +5,16 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Hotel.Intranet.Data;
+using Hotel.Data.Data;
+using Hotel.Data.Data.Users;
 
 namespace Hotel.Intranet.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly HotelIntranetContext _context;
+        private readonly HotelContext _context;
 
-        public UsersController(HotelIntranetContext context)
+        public UsersController(HotelContext context)
         {
             _context = context;
         }

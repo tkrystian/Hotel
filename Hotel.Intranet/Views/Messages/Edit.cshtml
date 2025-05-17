@@ -1,4 +1,5 @@
-﻿@model Hotel.Intranet.Models.Intranet.Messages
+﻿@using Hotel.Data.Data.DTO
+@model MessageDto
 
 @{
     ViewData["Title"] = "Edytuj wiadomość";
@@ -11,43 +12,45 @@
         </div>
         <div class="card-body">
             <form asp-action="Edit">
-                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+                @* Przechowujemy ID wiadomości *@
                 <input type="hidden" asp-for="IdWiadomosci" />
+
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
                 <div class="mb-3">
                     <label asp-for="Temat" class="form-label font-weight-bold"></label>
                     <input asp-for="Temat" class="form-control" />
                     <span asp-validation-for="Temat" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="Tresc" class="form-label font-weight-bold"></label>
                     <textarea asp-for="Tresc" class="form-control"></textarea>
                     <span asp-validation-for="Tresc" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
                     <label asp-for="DataWyslania" class="form-label font-weight-bold"></label>
                     <input asp-for="DataWyslania" class="form-control" />
                     <span asp-validation-for="DataWyslania" class="text-danger"></span>
                 </div>
+
                 <div class="mb-3">
-                    <label asp-for="NadawcaId" class="form-label font-weight-bold"></label>
-                    <input asp-for="NadawcaId" class="form-control" />
-                    <span asp-validation-for="NadawcaId" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="OdbiorcaId" class="form-label font-weight-bold"></label>
-                    <input asp-for="OdbiorcaId" class="form-control" />
-                    <span asp-validation-for="OdbiorcaId" class="text-danger"></span>
-                </div>
-                <div class="mb-3">
-                    <label asp-for="Status" class="form-label font-weight-bold"></label>
-                    <select asp-for="Status" class="form-control">
-                        @foreach (var status in Enum.GetValues(typeof(Hotel.Intranet.Models.Intranet.MessageStatus)))
-                        {
-                            <option value="@((int)status)">@status</option>
-                        }
+                    <label asp-for="SenderId" class="form-label font-weight-bold">Nadawca</label>
+                    <select asp-for="SenderId" asp-items="Model.Users" class="form-select">
+                        <option value="">Wybierz nadawcę</option>
                     </select>
-                    <span asp-validation-for="Status" class="text-danger"></span>
+                    <span asp-validation-for="SenderId" class="text-danger"></span>
                 </div>
+
+                <div class="mb-3">
+                    <label asp-for="RecipientId" class="form-label font-weight-bold">Odbiorca</label>
+                    <select asp-for="RecipientId" asp-items="Model.Users" class="form-select">
+                        <option value="">Wybierz odbiorcę</option>
+                    </select>
+                    <span asp-validation-for="RecipientId" class="text-danger"></span>
+                </div>
+
                 <div class="text-end">
                     <input type="submit" value="Zapisz" class="btn btn-primary me-2" />
                     <a asp-action="Index" class="btn btn-secondary">⬅ Powrót do listy</a>

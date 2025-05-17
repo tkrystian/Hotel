@@ -1,4 +1,13 @@
+using Hotel.Data.Data;
+using Hotel.SharedUI;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
+using Microsoft.Extensions.FileProviders.Embedded;
+
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddDbContext<HotelContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("HotelContext") ?? throw new InvalidOperationException("Connection string 'HotelContext' not found.")));
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -15,6 +24,15 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new ManifestEmbeddedFileProvider(
+        typeof(StaticResourceMarker).Assembly,
+        "wwwroot"
+    ),
+    RequestPath = "/shared"
+});
+
 
 app.UseRouting();
 

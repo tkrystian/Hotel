@@ -1,4 +1,5 @@
-﻿@model IEnumerable<HomePage>
+﻿@using Hotel.Data.Data.CMS
+@model IEnumerable<HomePage>
 
 @{
     ViewData["Title"] = "Index";
@@ -33,10 +34,10 @@
         {
             <tr>
                 <td>
-                    <img src="~/content/media/banners/@(item.Banner != null ? $"{item.Banner.FileName}.{item.Banner.FileType}" : "")" class="image-preview" />
+                    <img src="~/content/media/banners/@(item.Banner != null ? $"{item.Banner.FilePath}" : "")" class="image-preview" />
                 </td>
                 <td>
-                    <img src="~/content/media/misc/@(item.Grafika != null ? $"{item.Grafika.FileName}.{item.Grafika.FileType}" : "")" class="image-preview" />
+                    <img src="~/content/media/misc/@(item.Grafika != null ? $"{item.Grafika.FilePath}" : "")" class="image-preview" />
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Naglowek)

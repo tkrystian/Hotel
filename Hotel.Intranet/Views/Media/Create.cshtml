@@ -1,4 +1,5 @@
-﻿@model Media
+﻿@using Hotel.Data.Data.CMS
+@model Media
 
 @{
     ViewData["Title"] = "Dodaj media";
@@ -42,7 +43,7 @@
 
                 <div class="mb-3">
                     <label asp-for="FileType" class="form-label font-weight-bold"></label>
-                    <input asp-for="FileType" class="form-control" disabled/>
+                    <input asp-for="FileType" class="form-control"/>
                     <span asp-validation-for="FileType" class="text-danger"></span>
                 </div>
                 <div class="text-end">
